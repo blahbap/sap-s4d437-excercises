@@ -200,20 +200,16 @@ CLASS lhc_Z10_I_TRAVEL IMPLEMENTATION.
   METHOD determineSemanticKey.
 
     " GET AgencyID for all NEW travels
-    DATA(lv_agencyid) =
-    cl_s4d437_model=>get_agency_by_user( ).
+    DATA(lv_agencyid) = cl_s4d437_model=>get_agency_by_user( ).
     MODIFY ENTITY IN LOCAL MODE z10_i_travel
-    UPDATE FIELDS ( agencyid travelid )
-    WITH VALUE #( FOR key IN keys
-    (
-    %tky = key-%tky
-    agencyid = lv_agencyid
-    travelid =
-    cl_s4d437_model=>get_next_travelid_for_agency(
-    iv_agencynum = lv_agencyid
-    )
-    )
-    )
+        UPDATE FIELDS ( agencyid travelid )
+        WITH VALUE #( FOR key IN keys
+            (
+                %tky = key-%tky
+                agencyid = lv_agencyid
+                travelid = cl_s4d437_model=>get_next_travelid_for_agency( iv_agencynum = lv_agencyid )
+            )
+        )
     REPORTED DATA(ls_reported).
     reported = CORRESPONDING #( DEEP ls_reported ).
 

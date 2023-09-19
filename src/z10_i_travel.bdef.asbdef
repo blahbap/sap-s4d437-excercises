@@ -46,5 +46,5 @@ etag master ChangedAt
     field StartDate, EndDate;
   }
 
-   determination determineSemanticKey on modify { create; }
+  determination determineSemanticKey on modify { create; }
 }
