@@ -1,0 +1,32 @@
+managed implementation in class zbp_10_i_travel unique;
+
+define behavior for Z10_I_TRAVEL //alias <alias_name>
+persistent table z10_travel
+lock master
+authorization master ( instance )
+etag master ChangedAt
+{
+  create;
+  update;
+
+  field ( readonly ) AgencyID, TravelID, Status;
+  field ( mandatory ) CustomerID, StartDate, EndDate;
+
+
+  delete;
+
+  mapping for Z10_TRAVEL corresponding
+  {
+    AgencyID = agencynum;
+    TravelDescription = trdesc;
+    CustomerID = customid;
+    StartDate = stdat;
+    EndDate = enddat;
+    ChangedAt = changed_at;
+    ChangedBy = changed_by;
+  }
+
+  action set_to_cancelled;
+  validation validateCustomer on save { field CustomerID; }
+
+}

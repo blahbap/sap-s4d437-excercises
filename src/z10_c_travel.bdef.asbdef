@@ -1,0 +1,10 @@
+projection;
+
+define behavior for Z10_c_travel //alias <alias_name>
+use etag
+{
+  use create;
+  use update;
+  use delete;
+  use action set_to_cancelled;
+}

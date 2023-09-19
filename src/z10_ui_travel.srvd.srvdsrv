@@ -1,0 +1,4 @@
+@EndUserText.label: 'Service Binding'
+define service Z10_ui_travel {
+  expose Z10_c_travel;
+}
