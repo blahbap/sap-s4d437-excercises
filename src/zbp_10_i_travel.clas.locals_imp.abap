@@ -9,6 +9,8 @@ CLASS lhc_Z10_I_TRAVEL DEFINITION INHERITING FROM cl_abap_behavior_handler.
       IMPORTING keys FOR z10_i_travel~validatecustomer.
     METHODS determinesemantickey FOR DETERMINE ON MODIFY
       IMPORTING keys FOR z10_i_travel~determinesemantickey.
+    METHODS get_features FOR FEATURES
+      IMPORTING keys REQUEST requested_features FOR z10_i_travel RESULT result.
 
 ENDCLASS.
 
@@ -212,6 +214,60 @@ CLASS lhc_Z10_I_TRAVEL IMPLEMENTATION.
         )
     REPORTED DATA(ls_reported).
     reported = CORRESPONDING #( DEEP ls_reported ).
+
+  ENDMETHOD.
+
+  METHOD get_features.
+
+    DATA(lv_today) = cl_abap_context_info=>get_system_date( ).
+    READ ENTITY IN LOCAL MODE z10_i_travel
+        ALL FIELDS WITH CORRESPONDING #( keys )
+        RESULT DATA(lt_travel).
+
+    result =
+     VALUE #( FOR <travel> IN lt_travel
+     (
+     "key
+     %tky = <travel>-%tky
+     "action control
+     %features-%action-set_to_cancelled
+     = COND #(
+        WHEN <travel>-status = 'C'
+            THEN
+                if_abap_behv=>fc-o-disabled
+        WHEN <travel>-enddate IS NOT INITIAL AND <travel>-enddate <= lv_today
+            THEN
+                if_abap_behv=>fc-o-disabled
+        ELSE
+            if_abap_behv=>fc-o-enabled
+     )
+     "operation control
+
+     %features-%update
+     = COND #(
+        WHEN <travel>-status = 'C'
+            THEN if_abap_behv=>fc-o-disabled
+        WHEN <travel>-enddate IS NOT INITIAL AND <travel>-enddate <= lv_today
+            THEN if_abap_behv=>fc-o-disabled
+        ELSE if_abap_behv=>fc-o-enabled
+     )
+     "field control
+     %features-%field-startdate
+     = COND #(
+        WHEN <travel>-startdate IS NOT INITIAL AND <travel>-startdate <= lv_today
+            THEN if_abap_behv=>fc-f-read_only
+        ELSE if_abap_behv=>fc-f-mandatory
+     )
+     %features-%field-customerid
+     = COND #(
+         WHEN <travel>-startdate IS NOT INITIAL AND <travel>-startdate <= lv_today
+            THEN if_abap_behv=>fc-f-read_only
+            ELSE if_abap_behv=>fc-f-mandatory
+         )
+        )
+     ).
+
+
 
   ENDMETHOD.
 

@@ -7,12 +7,12 @@ authorization master ( instance )
 etag master ChangedAt
 {
   create;
-  update;
 
-  field ( readonly ) AgencyID, TravelID, Status;
-  field ( mandatory ) CustomerID, StartDate, EndDate;
-  field ( readonly, numbering : managed ) Trguid;
+  update ( features : instance );
 
+  // field ( mandatory ) CustomerID, StartDate, EndDate;
+  field ( mandatory ) EndDate;
+  field ( features : instance ) CustomerID, StartDate;
 
   delete;
 
@@ -27,7 +27,7 @@ etag master ChangedAt
     ChangedBy = changed_by;
   }
 
-  action set_to_cancelled;
+  action ( features : instance ) set_to_cancelled;
   //validation validateCustomer on save { field CustomerID; }
   validation validateCustomer on save
   { create;
