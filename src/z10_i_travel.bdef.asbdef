@@ -11,6 +11,7 @@ etag master ChangedAt
 
   field ( readonly ) AgencyID, TravelID, Status;
   field ( mandatory ) CustomerID, StartDate, EndDate;
+  field ( readonly, numbering : managed ) Trguid;
 
 
   delete;
@@ -27,6 +28,23 @@ etag master ChangedAt
   }
 
   action set_to_cancelled;
-  validation validateCustomer on save { field CustomerID; }
+  //validation validateCustomer on save { field CustomerID; }
+  validation validateCustomer on save
+  { create;
+    field CustomerID;
+  }
+  validation validateStartDate on save
+  { create;
+    field StartDate;
+  }
+  validation validateEndDate on save
+  { create;
+    field EndDate;
+  }
+  validation validateSequence on save
+  { create;
+    field StartDate, EndDate;
+  }
 
+   determination determineSemanticKey on modify { create; }
 }

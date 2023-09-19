@@ -7,6 +7,8 @@ CLASS lhc_Z10_I_TRAVEL DEFINITION INHERITING FROM cl_abap_behavior_handler.
       IMPORTING keys REQUEST requested_authorizations FOR z10_i_travel RESULT result.
     METHODS validatecustomer FOR VALIDATE ON SAVE
       IMPORTING keys FOR z10_i_travel~validatecustomer.
+    METHODS determinesemantickey FOR DETERMINE ON MODIFY
+      IMPORTING keys FOR z10_i_travel~determinesemantickey.
 
 ENDCLASS.
 
@@ -194,5 +196,27 @@ CLASS lhc_Z10_I_TRAVEL IMPLEMENTATION.
 
   ENDMETHOD.
 
+
+  METHOD determineSemanticKey.
+
+    " GET AgencyID for all NEW travels
+    DATA(lv_agencyid) =
+    cl_s4d437_model=>get_agency_by_user( ).
+    MODIFY ENTITY IN LOCAL MODE z10_i_travel
+    UPDATE FIELDS ( agencyid travelid )
+    WITH VALUE #( FOR key IN keys
+    (
+    %tky = key-%tky
+    agencyid = lv_agencyid
+    travelid =
+    cl_s4d437_model=>get_next_travelid_for_agency(
+    iv_agencynum = lv_agencyid
+    )
+    )
+    )
+    REPORTED DATA(ls_reported).
+    reported = CORRESPONDING #( DEEP ls_reported ).
+
+  ENDMETHOD.
 
 ENDCLASS.
