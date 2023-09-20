@@ -1,10 +1,14 @@
 managed implementation in class zbp_10_i_travel unique;
 
+with draft;
+
 define behavior for Z10_I_TRAVEL //alias <alias_name>
 persistent table z10_travel
+draft table z10_travel_d
 lock master
+total etag ChangedAt
+etag master LocalChangedAt
 authorization master ( instance )
-etag master ChangedAt
 {
   create;
 
@@ -15,6 +19,11 @@ etag master ChangedAt
   field ( features : instance ) CustomerID, StartDate;
 
   delete;
+
+  draft action Edit;
+  draft action Activate;
+  draft action Discard;
+  draft action Resume;
 
   mapping for Z10_TRAVEL corresponding
   {

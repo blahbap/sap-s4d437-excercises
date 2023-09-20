@@ -76,4 +76,7 @@ annotate view Z10_c_travel with
   @UI.hidden: true
   ChangedBy;
 
+  @UI.hidden: true
+  LocalChangedAt;
+
 }

@@ -23,5 +23,7 @@ define root view entity Z10_c_travel
       EndDate,
       Status,
       ChangedAt,
-      ChangedBy
+      ChangedBy,
+      LocalChangedAt
+      
 }

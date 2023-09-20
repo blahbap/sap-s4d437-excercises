@@ -15,7 +15,9 @@ define root view entity Z10_I_TRAVEL
       @Semantics.systemDateTime.lastChangedAt: true
       changed_at as ChangedAt,
       @Semantics.user.lastChangedBy: true
-      changed_by as ChangedBy
+      changed_by as ChangedBy,
+      @Semantics.systemDateTime.localInstanceLastChangedAt: true
+      loc_changed_at as LocalChangedAt
       //      _association_name // Make association public
 
 

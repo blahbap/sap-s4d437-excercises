@@ -1,4 +1,5 @@
 projection;
+use draft;
 
 define behavior for Z10_c_travel //alias <alias_name>
 use etag
@@ -7,4 +8,10 @@ use etag
   use update;
   use delete;
   use action set_to_cancelled;
+
+  use action Edit;
+  use action Activate;
+  use action Discard;
+  use action Resume;
+
 }
