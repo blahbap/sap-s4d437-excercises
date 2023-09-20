@@ -56,4 +56,60 @@ authorization master ( instance )
   }
 
   determination determineSemanticKey on modify { create; }
+
+  association _TravelItem { with draft; }
+
+}
+
+define behavior for z10_I_TravelItem alias Item
+persistent table d437e_tritem
+draft table d437e_tritem_d
+lock dependent by _Travel
+authorization dependent by _Travel
+etag master LocalChangedAt
+{
+
+  field ( readonly, numbering : managed ) Itguid;
+  field ( readonly ) AgencyID, TravelId, ItemID, Trguid;
+  association _Travel { with draft; }
+
+  mapping for z10_tritem
+
+  {
+
+    Itguid = itguid;
+
+    AgencyID = agencynum;
+
+    TravelId = travelid;
+
+    ItemID = tritemno;
+
+    Trguid = trguid;
+
+    CarrierId = carrid;
+
+    ConnectionId = connid;
+
+    FlightDate = fldate;
+
+    BookingId = bookid;
+
+    FlightClass = class;
+
+    PassengerName = passname;
+
+    CreatedAt = created_at;
+
+    CreatedBy = created_by;
+
+    ChangedAt = changed_at;
+
+    ChangedBy = changed_by;
+
+    LocalChangedAt = loc_changed_at;
+
+  }
+
+
 }

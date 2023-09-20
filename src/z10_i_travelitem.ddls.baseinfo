@@ -3,11 +3,11 @@
 {
 "FROM":
 [
-"Z10_TRAVEL"
+"Z10_TRITEM"
 ],
 "ASSOCIATED":
 [
-"Z10_I_TRAVELITEM"
+"Z10_I_TRAVEL"
 ],
 "BASE":
 [],

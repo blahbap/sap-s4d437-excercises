@@ -2,7 +2,7 @@
 @EndUserText.label: 'Flight Travel'
 define root view entity Z10_I_TRAVEL
   as select from z10_travel
-  //composition of target_data_source_name as _association_name
+  composition[0..*] of Z10_I_TRAVELITEM as _TravelItem
 {
   key trguid     as Trguid,
       agencynum  as AgencyID,
@@ -17,8 +17,9 @@ define root view entity Z10_I_TRAVEL
       @Semantics.user.lastChangedBy: true
       changed_by as ChangedBy,
       @Semantics.systemDateTime.localInstanceLastChangedAt: true
-      loc_changed_at as LocalChangedAt
+      loc_changed_at as LocalChangedAt,
       //      _association_name // Make association public
+      _TravelItem
 
 
 }
